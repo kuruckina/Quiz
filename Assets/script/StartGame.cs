@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -5,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartGame : MonoBehaviour
 {
     public Button StartGameButton;
-
+    
     void Start()
     {
         StartGameButton.onClick.AddListener(StartGameScene);
