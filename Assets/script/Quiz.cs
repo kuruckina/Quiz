@@ -12,6 +12,7 @@ public class Quiz : MonoBehaviour
     public TextMeshProUGUI QuestionLabel;
     public TextMeshProUGUI[] AnswersLabel;
     public Button[] AnswerButton;
+    public TextMeshProUGUI LifesLabel;
 
     public Button RestartButton;
 
@@ -67,9 +68,21 @@ public class Quiz : MonoBehaviour
         }
         else
         {
-            /*AnswerButton[index].GetComponent<Graphic>().color= Color.red;*/
             Debug.Log("Неправильный ответ");
             _falseUserAnswers++;
+            if (_falseUserAnswers == 1)
+            {
+                LifesLabel.text = "+ +";
+            }
+            else if (_falseUserAnswers == 2)
+            {
+                LifesLabel.text = "+";
+            }
+            else
+            {
+                SceneManager.LoadScene("Scenes/end");
+            }
+            
         }
 
         _qList.RemoveAt(_randQuestion);
