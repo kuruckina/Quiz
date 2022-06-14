@@ -13,8 +13,13 @@ public class Quiz : MonoBehaviour
     public TextMeshProUGUI[] AnswersLabel;
     public Button[] AnswerButton;
     public TextMeshProUGUI LifesLabel;
+    /*public Button HelpButton;*/
 
     public Button RestartButton;
+
+    /*public Color MainColor = Color.white;
+    public Color TrueColor = Color.green;
+    public Color FalseColor = Color.red;*/
 
     private List<object> _qList;
     private QuestionList _currentQuestion;
@@ -31,10 +36,15 @@ public class Quiz : MonoBehaviour
         AnswerButton[1].onClick.AddListener(() => AnswersButtonsMethod(1));
         AnswerButton[2].onClick.AddListener(() => AnswersButtonsMethod(2));
         RestartButton.onClick.AddListener(RestartGameScene);
+        /*HelpButton.onClick.AddListener(HelpButtonMethod);*/
     }
 
     private void QuestionGenerate()
     {
+        for (int i = 0; i < AnswerButton.Length; i++)
+        {
+            AnswerButton[i].gameObject.GetComponent<Graphic>().color= Color.white;
+        }
         if (_qList.Count > 0)
         {
             _randQuestion = Random.Range(0, _qList.Count);
@@ -61,14 +71,17 @@ public class Quiz : MonoBehaviour
 
     private void AnswersButtonsMethod(int index)
     {
+        
         if (AnswersLabel[index].text.ToString() == _currentQuestion.Answers[0])
         {
             Debug.Log("Правильный ответ");
+            AnswerButton[index].gameObject.GetComponent<Graphic>().color = Color.green;
             _trueUserAnswers++;
         }
         else
         {
             Debug.Log("Неправильный ответ");
+            AnswerButton[index].gameObject.GetComponent<Graphic>().color =  Color.red;
             _falseUserAnswers++;
             if (_falseUserAnswers == 1)
             {
@@ -82,22 +95,23 @@ public class Quiz : MonoBehaviour
             {
                 SceneManager.LoadScene("Scenes/end");
             }
-            
         }
 
         _qList.RemoveAt(_randQuestion);
-        QuestionGenerate();
+        Invoke("QuestionGenerate", 3f);
     }
 
     private void RestartGameScene()
     {
         SceneManager.LoadScene("Scenes/quiz");
     }
+
+    /*private void HelpButtonMethod()
+    {
+        List<string> answers = new List<string>(_currentQuestion.Answers);
+        int rand = Random.Range(1, answers.Count);
+        AnswerButton[rand].gameObject.SetActive(false);
+    }*/
 }
 
-[System.Serializable]
-public class QuestionList
-{
-    public string Question;
-    public string[] Answers = new string [3];
-}
+//ипользовать регионы, и вместо моей логики лучше ScriptableObject
